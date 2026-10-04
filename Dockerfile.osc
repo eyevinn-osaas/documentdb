@@ -1,0 +1,16 @@
+FROM ghcr.io/ferretdb/postgres-documentdb:17-0.107.0-ferretdb-2.7.0
+
+# bash and python3 ship in the base image; install only if missing
+RUN if ! command -v bash >/dev/null 2>&1 || ! command -v python3 >/dev/null 2>&1; then \
+      apt-get update && apt-get install -y --no-install-recommends bash python3 && rm -rf /var/lib/apt/lists/*; \
+    fi
+
+# Subdirectory of the volume mount avoids lost+found initdb failure
+ENV PGDATA=/var/lib/postgresql/data/pgdata
+ENV POSTGRES_DB=postgres
+
+COPY --chmod=755 osc-entrypoint.sh /usr/local/bin/osc-entrypoint.sh
+
+EXPOSE 5432 8080
+ENTRYPOINT ["/usr/local/bin/osc-entrypoint.sh"]
+CMD ["postgres"]

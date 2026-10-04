@@ -310,3 +310,7 @@ Contributors and users can join the [DocumentDB Discord channel in the Microsoft
 Q1. While performing `make check` if you encounter error `FATAL:  "/home/documentdb/code/pg_documentdb_core/src/test/regress/tmp/data" has wrong ownership`?
 
 Please drop the `/home/documentdb/code/pg_documentdb_core/src/test/regress/tmp/` directory and rerun the `make check`.
+
+## Eyevinn Open Source Cloud (OSC) adaptation
+
+This fork adds `Dockerfile.osc` and `osc-entrypoint.sh` so PostgreSQL with the DocumentDB extension can run as a TCP service on [Eyevinn Open Source Cloud](https://www.osaas.io). It is based on `ghcr.io/ferretdb/postgres-documentdb`, listens on 5432 (plus a dummy health listener on 8080), and requires `POSTGRES_PASSWORD`. Optional `POSTGRES_INITDB_SQL` runs on first initialization. Point FerretDB 2.x at it with `FERRETDB_POSTGRESQL_URL=postgres://postgres:<password>@<host>:5432/postgres`.
